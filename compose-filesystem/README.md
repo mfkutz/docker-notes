@@ -1,3 +1,5 @@
+Normaly, it's called "BIND VOLUME"
+
 This docker-compose.yml file configures two services: a PostgreSQL database and pgAdmin for managing the database, similar to the previous example but with a key difference: local filesystem persistence. Here's a breakdown:
 
 PostgreSQL service (db):
