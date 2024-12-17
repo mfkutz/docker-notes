@@ -9,5 +9,5 @@ docker buildx build --platform linux/amd64, linux/arm64, linux/arm/v7 -t <userna
 //example
 docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t socialcode88/cron-ticker:osopolar --push .
 
-//easy use (only use "FROM node:19.2-alpine3.16" or others versions)
+//easy use (only use "FROM node:19.2-alpine3.16" or others versions) see Dockerfile
 docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t socialcode88/cron-ticker:garza --push .
