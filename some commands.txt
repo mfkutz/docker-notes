@@ -1,0 +1,88 @@
+docker run -d -p 80:80 docker/getting-started
+
+
+
+docker container run `
+> --name postgress-beta `
+> -e POSTGRES_PASSWORD=mypass1 `
+> -dp 5432:5432 `
+> postgres:14-alpine3.17
+
+//montar contenedor mariadb con variables de entornos definidas:
+
+ docker container run `
+> --name world-db `  //asignamos nombre
+> -dp 3306:3306 `
+> -e MARIADB_USER=example-user `
+> -e MARIADB_PASSWORD=user-password `
+> -e MARIADB_ROOT_PASSWORD=root-secret-password `
+> -e MARIADB_DATABASE=world-db `
+> mariadb:jammy   //seleccionamos tag especifico
+
+
+//phpmyadmin with network
+
+docker run `
+--name phpmyadmin `
+-d `
+-e PMA_ARBITRARY=1 `
+-p 8080:80 `
+--network world-app `
+phpmyadmin:5.2.0-apache
+
+
+docker network connect <network-name> <container-name>
+
+//con volume y network incluida
+
+ docker container run `
+--name world-db `
+-dp 3307:3306 `
+-e MARIADB_USER=example-user `
+-e MARIADB_PASSWORD=user-password `
+-e MARIADB_ROOT_PASSWORD=root-secret-password `
+-e MARIADB_DATABASE=world-db `
+--volume world-db:/var/lib/mysql `
+--network world-app `
+mariadb:jammy
+
+
+
+//BIND volumes (en esta ocacion, descargamos la aplicacion ya hecha sin node_modules y corrimos este comando, lo que hace es descargar un linux con node para asi poder correrla)
+
+docker container run `
+--name nest-app `
+-w /app `
+-p 80:3000 `
+-v ${pwd}:/app `
+node:18-alpine3.17 `
+sh -c "yarn install && yarn start:dev"
+
+//editar un contenedor desde el shell
+
+docker exec -it <id_contenedor> /bin/sh
+
+luego...navegar por los directorios, para ver cualquier archivo
+cat nombre.archivo.extension
+
+para editar con vi
+vi nombre.archivo.extension
+
+para modificar en vi apretar tecla "i" , realizar modificaciones necesarias, luego ":wq!"
+la w es de write, la q de quit y ! de inmediato
+
+
+//BUILDX
+//instalar buildx and run//
+docker buildx create --name mybuilder --driver docker-container --bootstrap
+
+docker buildx use mybuilder
+
+//(nota: aqui no hace falta especificar --platform=$BUILDPLATFORM en el archivo de Dockerfile , es decir FROM --platform=$BUILDPLATFORM node:19.2-alpine3.16) simplemente usar: FROM node:19.2-alpine3.16 as deps ("deps" es solo un ejemplo)//
+
+docker buildx build --platform linux/amd64,linux/arm64 -t <user-name>/<name-app> --push .   
+
+
+//inspeccionar imagen
+docker buildx imagetools inspect socialcode88/cron-ticker:rex
+
