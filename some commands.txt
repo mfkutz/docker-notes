@@ -86,3 +86,11 @@ docker buildx build --platform linux/amd64,linux/arm64 -t <user-name>/<name-app>
 //inspeccionar imagen
 docker buildx imagetools inspect socialcode88/cron-ticker:rex
 
+
+//otros
+docker compose down --volumes        //esto "limpia el volumen"
+
+
+
+docker compose -f docker-compose.prod.yml up
+
