@@ -1,6 +1,10 @@
 docker run -d -p 80:80 docker/getting-started
 
+//create an image
+docker build -t socialcode88/docker-graphql:0.0.1 .
 
+//run
+docker container run -p 3000:3000 socialcode88/docker-graphql:0.0.1
 
 docker container run `
 > --name postgress-beta `
@@ -94,3 +98,5 @@ docker compose down --volumes        //esto "limpia el volumen"
 
 docker compose -f docker-compose.prod.yml up
 
+//see files of images
+docker exec -it <id_container> bash
